@@ -1,3 +1,4 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css';
 
 document.getElementById('reset-form').addEventListener('submit', async (e) => {
@@ -26,7 +27,7 @@ document.getElementById('reset-form').addEventListener('submit', async (e) => {
   
   try {
     console.log('Sending reset-password request to backend with token:', token);
-    const response = await fetch('http://localhost:8080/api/auth/reset-password', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/reset-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -1,6 +1,7 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css';
 
-const API = (import.meta.env.VITE_API_URL || 'http://localhost:8080')";
+
 
 // ─── Auth Gate ─────────────────────────────────────────────────────────────
 const token = localStorage.getItem('jwtToken');
@@ -36,7 +37,7 @@ const signoutBtn     = document.getElementById('signout-btn');
 // ─── Load User Balance ─────────────────────────────────────────────────────
 async function loadCredits() {
   try {
-    const res = await fetch(`${API}/api/auth/credits`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/auth/credits`, { headers: authHeaders });
     if (res.status === 401) {
       localStorage.removeItem('jwtToken');
       window.location.href = '/login.html';
@@ -58,7 +59,7 @@ async function loadPaymentHistory() {
     emptyState.classList.add('hidden');
     tableContainer.classList.add('hidden');
 
-    const res = await fetch(`${API}/api/payment/history`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/payment/history`, { headers: authHeaders });
     if (res.status === 401) {
       localStorage.removeItem('jwtToken');
       window.location.href = '/login.html';

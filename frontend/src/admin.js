@@ -1,6 +1,7 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css';
 
-const API = (import.meta.env.VITE_API_URL || 'http://localhost:8080')";
+
 
 // ─── Auth Guard & Admin Check ────────────────────────────────────────────────
 const token = localStorage.getItem('jwtToken');
@@ -48,7 +49,7 @@ const alertDismissBtn = document.getElementById('alert-dismiss-btn');
 // ─── Fetch Stats & Analytics ────────────────────────────────────────────────
 async function loadAnalytics() {
   try {
-    const res = await fetch(`${API}/api/payment/admin/stats`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/payment/admin/stats`, { headers: authHeaders });
     if (!res.ok) throw new Error('Stats load failed');
 
     const data = await res.json();
@@ -69,7 +70,7 @@ async function loadRequests() {
     emptyState.classList.add('hidden');
     tableContainer.classList.add('hidden');
 
-    const res = await fetch(`${API}/api/payment/admin/requests`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/payment/admin/requests`, { headers: authHeaders });
     if (!res.ok) throw new Error('Requests fetch failed');
 
     const records = await res.json();
@@ -148,7 +149,7 @@ function bindActionButtons() {
       if (!confirm('Are you sure you want to APPROVE this payment reference? Credits will be added immediately.')) return;
 
       try {
-        const res = await fetch(`${API}/api/payment/admin/approve`, {
+        const res = await fetch(`${API_BASE_URL}/api/payment/admin/approve`, {
           method: 'POST',
           headers: authHeaders,
           body: JSON.stringify({ requestId })
@@ -172,7 +173,7 @@ function bindActionButtons() {
       if (!confirm('Are you sure you want to REJECT this payment request? No credits will be loaded.')) return;
 
       try {
-        const res = await fetch(`${API}/api/payment/admin/reject`, {
+        const res = await fetch(`${API_BASE_URL}/api/payment/admin/reject`, {
           method: 'POST',
           headers: authHeaders,
           body: JSON.stringify({ requestId })

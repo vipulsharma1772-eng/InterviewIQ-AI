@@ -1,6 +1,7 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css';
 
-const API = (import.meta.env.VITE_API_URL || 'http://localhost:8080')";
+
 
 // ─── Auth Gate ─────────────────────────────────────────────────────────────
 const token = localStorage.getItem('jwtToken');
@@ -67,7 +68,7 @@ let countdownInterval = null;
 // ─── Fetch live credits ───────────────────────────────────────────────────
 async function loadCredits() {
   try {
-    const res = await fetch(`${API}/api/auth/credits`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/auth/credits`, { headers: authHeaders });
     if (res.status === 401) { window.location.href = '/login.html'; return; }
     if (!res.ok) throw new Error('Failed to load credits');
 
@@ -206,7 +207,7 @@ function startCountdownTimer(secondsLeft, utrValue) {
       const planName = selectedPlan.name.toUpperCase().includes('PRO') ? 'PRO' : 'STARTER';
 
       try {
-        const res = await fetch(`${API}/api/payment/upi-submit`, {
+        const res = await fetch(`${API_BASE_URL}/api/payment/upi-submit`, {
           method: 'POST',
           headers: authHeaders,
           body: JSON.stringify({ planName, utr: utrValue })

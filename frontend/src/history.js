@@ -1,6 +1,7 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css';
 
-const API = (import.meta.env.VITE_API_URL || 'http://localhost:8080')";
+
 
 // ─── Auth Gate ─────────────────────────────────────────────────────────────
 const token = localStorage.getItem('jwtToken');
@@ -43,7 +44,7 @@ function closeModal() {
 // ─── Fetch & Render History ────────────────────────────────────────────────
 async function loadHistory() {
   try {
-    const res = await fetch(`${API}/api/auth/history`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/auth/history`, { headers: authHeaders });
     if (res.status === 401) { window.location.href = '/login.html'; return; }
     if (!res.ok) throw new Error('Failed to load history');
 
@@ -207,7 +208,7 @@ document.addEventListener('click', async (e) => {
 // ─── Fetch Detail for Modal / PDF ─────────────────────────────────────────
 async function fetchDetail(id) {
   try {
-    const res = await fetch(`${API}/api/auth/history/${id}`, { headers: authHeaders });
+    const res = await fetch(`${API_BASE_URL}/api/auth/history/${id}`, { headers: authHeaders });
     if (!res.ok) throw new Error('Detail not found');
     return await res.json();
   } catch (err) {
@@ -587,7 +588,7 @@ async function loadHistoryCredits() {
   const creditsSpan = document.getElementById('nav-credits');
   if (!creditsSpan) return;
   try {
-    const response = await fetch(`${API}/api/auth/credits`, { headers: authHeaders });
+    const response = await fetch(`${API_BASE_URL}/api/auth/credits`, { headers: authHeaders });
     if (response.ok) {
       const data = await response.json();
       creditsSpan.textContent = `${data.credits}`;

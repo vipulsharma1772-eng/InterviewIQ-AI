@@ -1,3 +1,4 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css';
 
 // 1. Authentication Gate
@@ -22,7 +23,7 @@ if (insufficientCloseBtn && insufficientModal) {
 async function refreshNavbarCredits() {
   if (!navCreditsDisplay) return;
   try {
-    const response = await fetch('http://localhost:8080/api/auth/credits', { headers: authHeaders });
+    const response = await fetch(`${API_BASE_URL}/api/auth/credits`, { headers: authHeaders });
     if (response.ok) {
       const data = await response.json();
       navCreditsDisplay.textContent = `${data.credits} Credits`;
@@ -44,7 +45,7 @@ window.backToSetup = async function() {
   // If an interview was started but not finished/evaluated, mark it as INCOMPLETE on early exit
   if (state.historyId && state.currentQuestionIndex < 5 && state.scores.overall === 0) {
     try {
-      await fetch('http://localhost:8080/api/auth/history/incomplete', {
+      await fetch(`${API_BASE_URL}/api/auth/history/incomplete`, {
         method: 'POST',
         headers: authHeaders,
         body: JSON.stringify({
@@ -125,7 +126,7 @@ async function analyzeResumeFile(file) {
   const formData = new FormData();
   formData.append('file', file);
   try {
-    const response = await fetch('http://localhost:8080/api/auth/parse-resume', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/parse-resume`, {
       method: 'POST', body: formData
     });
     const responseText = await response.text();
@@ -222,7 +223,7 @@ async function startInterviewProcess() {
 
   // Create an INCOMPLETE history record on setup submit
   try {
-    const response = await fetch('http://localhost:8080/api/auth/history/start', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/history/start`, {
       method: 'POST',
       headers: authHeaders,
       body: JSON.stringify({
@@ -425,7 +426,7 @@ async function evaluateAnswersAndShowReport() {
 
   try {
     console.log('Sending interview to AI for evaluation...');
-    const response = await fetch('http://localhost:8080/api/auth/evaluate-interview', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/evaluate-interview`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -462,7 +463,7 @@ async function evaluateAnswersAndShowReport() {
     // Call complete endpoint to save scores and change status to COMPLETED
     if (state.historyId) {
       try {
-        await fetch('http://localhost:8080/api/auth/history/complete', {
+        await fetch(`${API_BASE_URL}/api/auth/history/complete`, {
           method: 'POST',
           headers: authHeaders,
           body: JSON.stringify({
@@ -493,7 +494,7 @@ async function evaluateAnswersAndShowReport() {
     // Report failed status to backend
     if (state.historyId) {
       try {
-        await fetch('http://localhost:8080/api/auth/history/failed', {
+        await fetch(`${API_BASE_URL}/api/auth/history/failed`, {
           method: 'POST',
           headers: authHeaders,
           body: JSON.stringify({ historyId: state.historyId })

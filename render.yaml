@@ -2,7 +2,7 @@ services:
   # Backend Spring Boot Service
   - type: web
     name: interviewiq-api
-    env: java
+    env: docker
     region: oregon
     repo: https://github.com/vipulsharma1772-eng/InterviewIQ-AI.git
     branch: main

@@ -1,3 +1,4 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 import './style.css'
 
 // Do NOT redirect logged-in users away — they should be able to view the main dashboard page.
@@ -677,7 +678,7 @@ async function loadMainCredits() {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/auth/credits', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/credits`, {
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
     });
     if (response.ok) {
