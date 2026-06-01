@@ -81,7 +81,7 @@ public class PaymentController {
             pr.setUserId(user.getId());
             pr.setUserName(user.getFullName());
             pr.setEmail(user.getEmail());
-            pr.setPlanName(planName.toUpperCase().includes("PRO") ? "Pro Pack" : "Starter Pack");
+            pr.setPlanName(planName.toUpperCase().contains("PRO") ? "Pro Pack" : "Starter Pack");
             pr.setAmount(amount);
             pr.setCredits(creditsAdded);
             pr.setUtrNumber(utr);
