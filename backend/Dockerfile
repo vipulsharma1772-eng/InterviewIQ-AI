@@ -6,7 +6,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
 # Package stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
