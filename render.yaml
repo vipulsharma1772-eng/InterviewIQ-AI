@@ -1,0 +1,48 @@
+services:
+  # Backend Spring Boot Service
+  - type: web
+    name: interviewiq-api
+    env: java
+    region: oregon
+    repo: https://github.com/vipulsharma1772-eng/InterviewIQ-AI.git
+    branch: main
+    rootDir: backend
+    buildCommand: ./gradlew build -x test
+    startCommand: java -jar build/libs/*.jar
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: interviewiq-db
+          property: connectionString
+      - key: DB_URL
+        value: ${DATABASE_URL}
+      - key: DB_USERNAME
+        value: interviewiq_user
+      - key: DB_PASSWORD
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: FRONTEND_URL
+        value: https://interviewiq-app.onrender.com
+
+  # Frontend Static Site
+  - type: web
+    name: interviewiq-app
+    env: static
+    region: oregon
+    repo: https://github.com/vipulsharma1772-eng/InterviewIQ-AI.git
+    branch: main
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://interviewiq-api.onrender.com
+
+databases:
+  # PostgreSQL Database
+  - name: interviewiq-db
+    region: oregon
+    user: interviewiq_user
