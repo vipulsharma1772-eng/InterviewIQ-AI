@@ -3,7 +3,7 @@ services:
   - type: web
     name: interviewiq-api
     env: docker
-    region: oregon
+    plan: free
     repo: https://github.com/vipulsharma1772-eng/InterviewIQ-AI.git
     branch: main
     rootDir: backend
@@ -50,5 +50,6 @@ services:
 databases:
   # PostgreSQL Database
   - name: interviewiq-db
+    plan: free
     region: oregon
     user: interviewiq_user
